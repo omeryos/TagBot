@@ -219,13 +219,21 @@ public class Gui {
         } else if (command.startsWith("/addchat")) {
             String chatIdToAdd = command.split(" ")[1];
             if (bot.chatIdsList.contains(chatIdToAdd)) {
-                bot.chatIdsList.remove(chatIdToAdd);
-                logMessage("chat removed from the list");
+                logMessage("chat id " + chatIdToAdd + " is already on the list");
             } else {
                 bot.chatIdsList.add(chatIdToAdd);
                 logMessage("chat Added");
             }
-        } else {
+        }else if(command.startsWith("/removechat")){
+            String chatIdToRemove = command.split(" ")[1];
+            if (bot.chatIdsList.contains(chatIdToRemove)) {
+                bot.chatIdsList.remove(chatIdToRemove);
+                logMessage("chat id " + chatIdToRemove + " was removed from the list");
+            } else {
+                logMessage("chat id " + chatIdToRemove + " was NOT on the list");
+            }
+        }
+        else {
             logMessage("Unknown command: " + command);
         }
     }
