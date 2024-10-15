@@ -1,5 +1,6 @@
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.send.SendAnimation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -22,6 +23,7 @@ public class TagUserBot extends TelegramLongPollingBot {
     protected Long myChatId = 1L;
     static ArrayList<String> taggedUsers = new ArrayList<>();
     static ArrayList<String> stickersToSend = new ArrayList<>();
+    static ArrayList<String> animationsToSend = new ArrayList<>();
     static ArrayList<String> chatIdsList = new ArrayList<>();
     HashMap<String, List<Integer>> replyMap = new HashMap<>();
     String baseMessage = "Hello";
@@ -149,6 +151,17 @@ public class TagUserBot extends TelegramLongPollingBot {
                 sendMessage(myChatId, "sticker added");
             }
         }
+        if(update.getMessage().hasAnimation()&& update.getMessage().getFrom().getId().equals(myChatId)){
+            String fileId = update.getMessage().getAnimation().getFileId();
+            if (animationsToSend.contains(fileId)) {
+                animationsToSend.remove(fileId);
+                sendMessage(myChatId, "animation removed");
+            } else {
+                animationsToSend.add(update.getMessage().getAnimation().getFileId());
+                sendMessage(myChatId, "animation added");
+            }
+        }
+
     }
 
     public void addUserToTaggedList(String username, Long chatId) {
@@ -243,7 +256,8 @@ public class TagUserBot extends TelegramLongPollingBot {
         scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(this::sendTagMessage, 0, 15, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(this::replyToUserInGroup, 2, 15, TimeUnit.SECONDS);
-        scheduler.scheduleAtFixedRate(this::sendSticker, 5, 30, TimeUnit.SECONDS);  // 5 seconds after tags
+        scheduler.scheduleAtFixedRate(this::sendSticker, 5, 30, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::sendAnimation, 7, 20, TimeUnit.SECONDS);
         isBotActive = true;
     }
 
@@ -268,6 +282,25 @@ public class TagUserBot extends TelegramLongPollingBot {
                         System.out.println("Sent sticker " + stickerId);
                     } catch (TelegramApiException e) {
                         System.err.println("Failed to send sticker: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }
+    }
+    public void sendAnimation() {
+        if (isBotActive) {
+            for(String chatId : chatIdsList){
+                for (String stickerId : animationsToSend) {
+                    SendAnimation animation = new SendAnimation();
+                    animation.setChatId(chatId);
+                    animation.setAnimation(new InputFile(stickerId));  // Use the retrieved file_id
+                    try {
+                        execute(animation);
+                        System.out.println("Sent animation " + stickerId);
+                    } catch (TelegramApiException e) {
+                        System.err.println("Failed to send animation: " + e.getMessage());
                         e.printStackTrace();
                     }
 

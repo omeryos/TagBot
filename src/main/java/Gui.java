@@ -48,7 +48,7 @@ public class Gui {
         JMenuItem logMenuItem = new JMenuItem("Get log file");
         JMenuItem aboutMenuItem = new JMenuItem("About");
         aboutMenuItem.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Tagging bot 1.31 with GUI, created by omer", "About", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Tagging bot 1.3.2 with GUI, created by omer", "About", JOptionPane.INFORMATION_MESSAGE);
         });
        // produce a file with the logging screen contents
         logMenuItem.addActionListener(e -> {
