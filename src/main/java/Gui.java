@@ -148,15 +148,15 @@ public class Gui {
     private void handleCommand(String command) {
         if (command.startsWith("/addusername ")) {
             String username = command.split(" ")[1];
-            bot.addUserToTaggedList(username, bot.getInternalMsgChatid());  // Simulate chat command
+            bot.addUserToTaggedList(username, bot.myChatId);  // Simulate chat command
             logMessage("Added username: " + username);
         } else if (command.startsWith("/removeusername ")) {
             String username = command.split(" ")[1];
-            bot.removeUserFromTaggedList(username, bot.getInternalMsgChatid());  // Simulate chat command
+            bot.removeUserFromTaggedList(username, bot.myChatId);  // Simulate chat command
             logMessage("Removed username: " + username);
         } else if (command.startsWith("/changetext,")) {
             String newMessage = command.split(",")[1];
-            bot.changeText(newMessage, bot.getInternalMsgChatid());  // Simulate chat command
+            bot.changeText(newMessage, bot.myChatId);  // Simulate chat command
             logMessage("Changed base message to: " + newMessage);
         } else if (command.equals("/start")) {
             bot.isBotActive = true;
