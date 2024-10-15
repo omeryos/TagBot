@@ -132,13 +132,20 @@ public class TagUserBot extends TelegramLongPollingBot {
             } else if (messageText.startsWith("/addchat")) {
                 String chatIdToAdd = messageText.split(" ")[1];
                 if (chatIdsList.contains(chatIdToAdd)) {
-                    chatIdsList.remove(chatIdToAdd);
-                    sendMessage(chatId, "chat removed from the list");
+                    sendMessage(chatId, "chat id " + chatIdToAdd + " is already on the list");
                 } else {
                     chatIdsList.add(chatIdToAdd);
                     sendMessage(chatId, "chat Added");
                 }
 
+            }else if(messageText.startsWith("/removechat")){
+                String chatIdToRemove = messageText.split(" ")[1];
+                if (chatIdsList.contains(chatIdToRemove)) {
+                    chatIdsList.remove(chatIdToRemove);
+                    sendMessage(chatId, "chat removed from the list");
+                } else {
+                    sendMessage(chatId, "chat id " + chatIdToRemove +" was not on the list!");
+                }
             }
         }
         if (update.getMessage().hasSticker()&& update.getMessage().getFrom().getId().equals(myChatId)) {
