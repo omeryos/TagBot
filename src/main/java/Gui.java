@@ -3,10 +3,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Formatter;
 
 public class Gui {
-    private JTextArea logArea;  // bot log information
+    private JTextArea logArea;
     TagUserBot bot;
 
     public Gui(TagUserBot bot) {
@@ -17,7 +19,6 @@ public class Gui {
         frame.setSize(420, 550);
         frame.setTitle("Tagging Bot 1.31");
         frame.getContentPane().setBackground(Color.DARK_GRAY);
-        frame.getGlassPane().setBackground(Color.blue);
         frame.setLayout(new FlowLayout());
         frame.setResizable(false);
 
@@ -87,23 +88,30 @@ public class Gui {
         textArea.setPreferredSize(new Dimension(200, 50));
         textArea.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 
-        // Button to process the entered command
-        Button processButton = new Button("Process Command");
-        processButton.setPreferredSize(new Dimension(150, 30));
+        //  process the entered command
+        JButton processButton = new JButton("CMD");
+        processButton.setPreferredSize(new Dimension(60, 30));
         processButton.addActionListener(e -> {
             String command = textArea.getText();
             handleCommand(command);
             textArea.setText("");
         });
-
+        processButton.setToolTipText("Process the command");
+        // clear the log
+        JButton clearButton = new JButton("CLR");
+        clearButton.addActionListener(e -> {
+            clearLog();
+        });
+        clearButton.setToolTipText("Clear the log");
         // adding the command and exec command button components to the main panel
         mainPanel.add(textArea);
         mainPanel.add(processButton);
 
 
+
         logArea = new JTextArea();
         logArea.setEditable(false);
-        logArea.setRows(10);
+        logArea.setRows(6);
         logArea.setColumns(30);
         logArea.createToolTip();
         JScrollPane scrollPane = new JScrollPane(logArea);
@@ -128,15 +136,21 @@ public class Gui {
 
         controlPanel.add(startButton);
         controlPanel.add(stopButton);
+        controlPanel.add(clearButton);
         RemoveChatPanel removeChatPanel = new RemoveChatPanel(bot,this);
         AddChatPanel addChatPanel = new AddChatPanel(bot,this);
         ChangeTextPanel changeTextPanel = new ChangeTextPanel(bot,this);
+        AddUserPanel addUserPanel = new AddUserPanel(bot,this);
+        RemoveUserPanel removeUserPanel = new RemoveUserPanel(bot,this);
+
 
         // add all the panels to the frame
         frame.add(mainPanel);
         frame.add(addChatPanel);
         frame.add(removeChatPanel);
         frame.add(changeTextPanel);
+        frame.add(addUserPanel);
+        frame.add(removeUserPanel);
         frame.add(scrollPane);
         frame.add(controlPanel);
         frame.setVisible(true);
@@ -184,6 +198,9 @@ public class Gui {
      * Method to log messages to the GUI log area.
      */
     public void logMessage(String message) {
-        logArea.append(message + "\n");
+        logArea.append(bot.logCurrentTime() + ": " +message + "\n");
+    }
+    private void clearLog() {
+        logArea.setText("");
     }
 }

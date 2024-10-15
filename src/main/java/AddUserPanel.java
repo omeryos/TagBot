@@ -32,7 +32,7 @@ public class AddUserPanel extends JPanel {
         innerPanel.add(userNameField);
 
         //button
-        JButton addChatButton = new JButton("Add user");
+        JButton addChatButton = new JButton("Add");
         addChatButton.setPreferredSize(new Dimension(100,20));
         addChatButton.addActionListener(e -> bot.addUserToTaggedList(userNameField.getText(),bot.myChatId));
         innerPanel.add(addChatButton);

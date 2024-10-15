@@ -58,8 +58,8 @@ public class AddChatPanel extends JPanel {
             if (bot.chatIdsList.contains(chatId)) {
                 gui.logMessage("Chat ID already exists: " + chatId);
             } else {
-                bot.chatIdsList.add(chatId);  // Add chat ID to the list
-                gui.logMessage("Added chat ID: " + chatId);  // Log to the GUI log area
+                bot.chatIdsList.add(chatId);
+                gui.logMessage("Added chat ID: " + chatId);
             }
         } else {
             gui.logMessage("Please enter a valid chat ID.");
