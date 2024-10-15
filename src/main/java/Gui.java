@@ -59,7 +59,7 @@ public class Gui {
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files (*.txt)", "txt");
             fileChooser.setFileFilter(filter);
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy_HH:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy_HH-mm-ss");
             String dateString = formatter.format(new Date());
 
             fileChooser.setSelectedFile(new java.io.File("Log - " + dateString + ".txt"));
