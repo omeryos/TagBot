@@ -19,7 +19,7 @@ public class Gui {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(420, 550);
-        frame.setTitle("Tagging Bot 1.32");
+        frame.setTitle("Tagging Bot 1.3.2");
         frame.getContentPane().setBackground(Color.DARK_GRAY);
         frame.setLayout(new FlowLayout());
         frame.setResizable(false);
@@ -134,12 +134,11 @@ public class Gui {
 
         JButton startButton = new JButton("Start Bot");
         startButton.addActionListener(e -> {
-            if(!bot.isBotStarted){
-                bot.isBotStarted = true;
+            if(!bot.isBotActive){
                 logMessage("Bot started");
                 bot.isBotActive = true;
                 bot.startScheduler();
-                setBotRunning(bot.isBotStarted);
+                setBotRunning(bot.isBotActive);
             }else{
                 logMessage("Bot is already running!");
             }
@@ -148,12 +147,11 @@ public class Gui {
 
         JButton stopButton = new JButton("Stop Bot");
         stopButton.addActionListener(e -> {
-            if(bot.isBotStarted){
-                bot.isBotStarted = false;
+            if(bot.isBotActive){
                 logMessage("Bot stopped");
                 bot.isBotActive = false;
                 bot.stopScheduler();
-                setBotRunning(bot.isBotStarted);
+                setBotRunning(bot.isBotActive);
             }else{
                 logMessage("Bot is already down!");
             }
@@ -199,22 +197,20 @@ public class Gui {
             bot.changeText(newMessage, bot.myChatId);  // Simulate chat command
             logMessage("Changed base message to: " + newMessage);
         } else if (command.equals("/start")) {
-            if(!bot.isBotStarted){
-                bot.isBotStarted = true;
+            if(!bot.isBotActive){
                 bot.isBotActive = true;
                 bot.startScheduler();
-                setBotRunning(bot.isBotStarted);
+                setBotRunning(bot.isBotActive);
                 logMessage("Bot started");
             }else{
                 logMessage("Bot is already running!");
             }
 
         } else if (command.equals("/stop")) {
-            if(bot.isBotStarted){
-                bot.isBotStarted = false;
+            if(bot.isBotActive){
                 bot.isBotActive = false;
                 bot.stopScheduler();
-                setBotRunning(bot.isBotStarted);
+                setBotRunning(bot.isBotActive);
                 logMessage("Bot stopped");
             }else{
                 logMessage("Bot is already down!");

@@ -30,8 +30,8 @@ public class TagUserBot extends TelegramLongPollingBot {
 
 
 
-    boolean isBotActive = true;
-    boolean isBotStarted = false;
+    boolean isBotActive = false;
+
     private Gui gui;
 
     public TagUserBot() {
@@ -108,23 +108,21 @@ public class TagUserBot extends TelegramLongPollingBot {
                 baseMessage = messageText.split(",")[1]; //extract text
                 changeText(baseMessage, chatId);
             } else if (messageText.equals("/start")) {
-                if(!isBotStarted){
-                    isBotStarted = true;
+                if(!isBotActive){
                     isBotActive = true;
                     startScheduler();
                     sendMessage(chatId, "bot activated");
-                   gui.setBotRunning(isBotStarted);
+                   gui.setBotRunning(isBotActive);
                 }else{
                     sendMessage(chatId, "bot is already running");
                 }
 
             } else if (messageText.equals("/stop")) {
-                if(isBotStarted){
+                if(isBotActive){
                     isBotActive = false;
-                    isBotStarted = false;
                     stopScheduler();
                     sendMessage(chatId, "bot stopped");
-                    gui.setBotRunning(isBotStarted);
+                    gui.setBotRunning(isBotActive);
                 }else{
                     sendMessage(chatId, "bot is already down!");
                 }
@@ -246,14 +244,14 @@ public class TagUserBot extends TelegramLongPollingBot {
         scheduler.scheduleAtFixedRate(this::sendTagMessage, 0, 15, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(this::replyToUserInGroup, 2, 15, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(this::sendSticker, 5, 30, TimeUnit.SECONDS);  // 5 seconds after tags
-        isBotStarted = true;
+        isBotActive = true;
     }
 
     // Method to stop the scheduler
     public void stopScheduler() {
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdown();
-            isBotStarted = false;
+            isBotActive = false;
             System.out.println("Scheduler stopped.");
         }
     }
