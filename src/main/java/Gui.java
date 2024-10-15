@@ -10,17 +10,29 @@ import java.util.Formatter;
 public class Gui {
     private JTextArea logArea;
     TagUserBot bot;
-
+    private JLabel statusLabel;
+    private Icon greenIcon;
+    private Icon redIcon;
     public Gui(TagUserBot bot) {
         this.bot = bot;
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(420, 550);
-        frame.setTitle("Tagging Bot 1.31");
+        frame.setTitle("Tagging Bot 1.32");
         frame.getContentPane().setBackground(Color.DARK_GRAY);
         frame.setLayout(new FlowLayout());
         frame.setResizable(false);
+
+        // Create icons
+        JPanel statusPanel = new JPanel();
+        greenIcon = new ColorIcon(Color.GREEN);
+        redIcon = new ColorIcon(Color.RED);
+
+        // Initialize and place the status label in the frame
+        statusLabel = new JLabel("Bot Status: Stopped", redIcon, JLabel.LEFT);
+        statusPanel.add(statusLabel);
+        frame.add(statusPanel, BorderLayout.NORTH);
 
         //menu bar
         JMenuBar jMenuBar = new JMenuBar();
@@ -122,16 +134,30 @@ public class Gui {
 
         JButton startButton = new JButton("Start Bot");
         startButton.addActionListener(e -> {
-            logMessage("Bot started");
-            bot.isBotActive = true;
-            bot.startScheduler();
+            if(!bot.isBotStarted){
+                bot.isBotStarted = true;
+                logMessage("Bot started");
+                bot.isBotActive = true;
+                bot.startScheduler();
+                setBotRunning(bot.isBotStarted);
+            }else{
+                logMessage("Bot is already running!");
+            }
+
         });
 
         JButton stopButton = new JButton("Stop Bot");
         stopButton.addActionListener(e -> {
-            logMessage("Bot stopped");
-            bot.isBotActive = false;
-            bot.stopScheduler();
+            if(bot.isBotStarted){
+                bot.isBotStarted = false;
+                logMessage("Bot stopped");
+                bot.isBotActive = false;
+                bot.stopScheduler();
+                setBotRunning(bot.isBotStarted);
+            }else{
+                logMessage("Bot is already down!");
+            }
+
         });
 
         controlPanel.add(startButton);
@@ -173,13 +199,27 @@ public class Gui {
             bot.changeText(newMessage, bot.myChatId);  // Simulate chat command
             logMessage("Changed base message to: " + newMessage);
         } else if (command.equals("/start")) {
-            bot.isBotActive = true;
-            bot.startScheduler();
-            logMessage("Bot started");
+            if(!bot.isBotStarted){
+                bot.isBotStarted = true;
+                bot.isBotActive = true;
+                bot.startScheduler();
+                setBotRunning(bot.isBotStarted);
+                logMessage("Bot started");
+            }else{
+                logMessage("Bot is already running!");
+            }
+
         } else if (command.equals("/stop")) {
-            bot.isBotActive = false;
-            bot.stopScheduler();
-            logMessage("Bot stopped");
+            if(bot.isBotStarted){
+                bot.isBotStarted = false;
+                bot.isBotActive = false;
+                bot.stopScheduler();
+                setBotRunning(bot.isBotStarted);
+                logMessage("Bot stopped");
+            }else{
+                logMessage("Bot is already down!");
+            }
+
         } else if (command.startsWith("/addchat")) {
             String chatIdToAdd = command.split(" ")[1];
             if (bot.chatIdsList.contains(chatIdToAdd)) {
@@ -205,5 +245,14 @@ public class Gui {
     }
     private void clearLog() {
         logArea.setText("");
+    }
+    public void setBotRunning(boolean isRunning) {
+        if (isRunning) {
+            statusLabel.setIcon(greenIcon);
+            statusLabel.setText("Bot Status: Running");
+        } else {
+            statusLabel.setIcon(redIcon);
+            statusLabel.setText("Bot Status: Stopped");
+        }
     }
 }

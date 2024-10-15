@@ -11,16 +11,16 @@ public class AddUserPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // set maximum size of the panel to allow it to stretch across the available width
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        setPreferredSize(new Dimension(400, 50));
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        setPreferredSize(new Dimension(400, 40));
 
         add(Box.createRigidArea(new Dimension(0, 5)));  // Top margin
 
         JPanel innerPanel = new JPanel();
         innerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        innerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        innerPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 50));
+        innerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        innerPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 40));
 
         //label
         JLabel addUserLabel = new JLabel("Add user:");
@@ -28,7 +28,7 @@ public class AddUserPanel extends JPanel {
 
         //text field
         userNameField = new JTextField(15);
-        userNameField.setPreferredSize(new Dimension(150, 25));  // Set preferred size for the text field
+        userNameField.setPreferredSize(new Dimension(150, 20));  // Set preferred size for the text field
         innerPanel.add(userNameField);
 
         //button

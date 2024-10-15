@@ -12,8 +12,8 @@ public class ChangeTextPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // set maximum size of the panel to allow it to stretch across the available width
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        setPreferredSize(new Dimension(400, 50)); // Optional preferred size
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        setPreferredSize(new Dimension(400, 40)); // Optional preferred size
 
         // add vertical spacing using rigid areas
         add(Box.createRigidArea(new Dimension(0, 5)));  // Top margin
@@ -23,8 +23,8 @@ public class ChangeTextPanel extends JPanel {
         innerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Ensure inner panel stretches horizontally
-        innerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        innerPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 50));
+        innerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        innerPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 40));
 
         // add label
         JLabel addChatLabel = new JLabel("Change message:");
@@ -32,7 +32,7 @@ public class ChangeTextPanel extends JPanel {
 
         // add text field
         baseMessageField = new JTextField(15);
-        baseMessageField.setPreferredSize(new Dimension(150, 25));  // Set preferred size for the text field
+        baseMessageField.setPreferredSize(new Dimension(150, 20));  // Set preferred size for the text field
         innerPanel.add(baseMessageField);
 
         // add button

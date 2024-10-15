@@ -14,8 +14,8 @@ public class RemoveChatPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Set maximum size of the panel to allow it to stretch across the available width
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        setPreferredSize(new Dimension(400, 50)); // Optional preferred size
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        setPreferredSize(new Dimension(400, 40)); // Optional preferred size
 
         // Add vertical spacing using rigid areas
         add(Box.createRigidArea(new Dimension(0, 5)));  // Top margin
@@ -25,19 +25,20 @@ public class RemoveChatPanel extends JPanel {
         innerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         // Ensure inner panel stretches horizontally
-        innerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-        innerPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 50));
+        innerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        innerPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 40));
 
 
         JLabel removeChatLabel = new JLabel("Remove Chat:");
         innerPanel.add(removeChatLabel);
 
         chatIdField = new JTextField(15);
-        chatIdField.setPreferredSize(new Dimension(150, 25));  // Set preferred size for the text field
+        chatIdField.setPreferredSize(new Dimension(150, 20));  // Set preferred size for the text field
         innerPanel.add(chatIdField);
 
 
         JButton removeChatButton = new JButton("Remove Chat");
+        removeChatButton.setPreferredSize(new Dimension(100,20));
         removeChatButton.addActionListener(e -> {
             removeChatAction();
             gui.clearTextArea(chatIdField);
@@ -53,7 +54,7 @@ public class RemoveChatPanel extends JPanel {
 
     private void removeChatAction() {
         String chatId = chatIdField.getText();
-        if (!chatId.isEmpty()) {
+        if (!chatId.isEmpty() && chatId.startsWith("-")) {
             if (bot.chatIdsList.contains(chatId)) {
                 bot.chatIdsList.remove(chatId);
                 gui.logMessage("Removed chat ID: " + chatId);

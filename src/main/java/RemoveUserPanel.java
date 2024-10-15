@@ -10,14 +10,14 @@ public class RemoveUserPanel extends JPanel {
             this.bot = bot;
             this.gui = gui;
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-            setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-            setPreferredSize(new Dimension(400, 50));
+            setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+            setPreferredSize(new Dimension(400, 40));
             add(Box.createRigidArea(new Dimension(0, 5)));
 
             JPanel innerPanel = new JPanel();
             innerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-            innerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-            innerPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 50));
+            innerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+            innerPanel.setPreferredSize(new Dimension(Integer.MAX_VALUE, 40));
 
             //label
             JLabel addUserLabel = new JLabel("Remove user:");
@@ -25,7 +25,7 @@ public class RemoveUserPanel extends JPanel {
 
             //text field
             userNameField = new JTextField(15);
-            userNameField.setPreferredSize(new Dimension(150, 25));
+            userNameField.setPreferredSize(new Dimension(150, 20));
             innerPanel.add(userNameField);
 
             //button
