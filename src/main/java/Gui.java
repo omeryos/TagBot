@@ -200,6 +200,9 @@ public class Gui {
     public void logMessage(String message) {
         logArea.append(bot.logCurrentTime() + ": " +message + "\n");
     }
+    protected void clearTextArea(JTextField field){
+        field.setText("");
+    }
     private void clearLog() {
         logArea.setText("");
     }

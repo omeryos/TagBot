@@ -39,7 +39,10 @@ public class AddChatPanel extends JPanel {
 
         // Add button
         JButton addChatButton = new JButton("Add Chat");
-        addChatButton.addActionListener(e -> addChatAction());
+        addChatButton.addActionListener(e -> {
+            addChatAction();
+            gui.clearTextArea(chatIdField);
+        });
         innerPanel.add(addChatButton);
 
         // Add the inner panel to the main panel

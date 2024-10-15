@@ -31,7 +31,10 @@ public class RemoveUserPanel extends JPanel {
             //button
             JButton addChatButton = new JButton("Remove");
             addChatButton.setPreferredSize(new Dimension(100,20));
-            addChatButton.addActionListener(e -> bot.removeUserFromTaggedList(userNameField.getText(),bot.myChatId));
+            addChatButton.addActionListener(e -> {
+                bot.removeUserFromTaggedList(userNameField.getText(), bot.myChatId);
+                gui.clearTextArea(userNameField);
+            });
             innerPanel.add(addChatButton);
 
             add(innerPanel);

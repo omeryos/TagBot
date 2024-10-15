@@ -38,7 +38,10 @@ public class ChangeTextPanel extends JPanel {
         // add button
         JButton addChatButton = new JButton("Change message");
         addChatButton.setPreferredSize(new Dimension(100,20));
-        addChatButton.addActionListener(e -> changeTextAction(baseMessageField.getText()));
+        addChatButton.addActionListener(e -> {
+            changeTextAction(baseMessageField.getText());
+            gui.clearTextArea(baseMessageField);
+        });
         innerPanel.add(addChatButton);
 
         // Add the inner panel to the main panel

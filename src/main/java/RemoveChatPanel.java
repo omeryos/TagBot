@@ -38,7 +38,10 @@ public class RemoveChatPanel extends JPanel {
 
 
         JButton removeChatButton = new JButton("Remove Chat");
-        removeChatButton.addActionListener(e -> removeChatAction());
+        removeChatButton.addActionListener(e -> {
+            removeChatAction();
+            gui.clearTextArea(chatIdField);
+        });
         innerPanel.add(removeChatButton);
 
         // Add the inner panel containing the label, text field, and button
