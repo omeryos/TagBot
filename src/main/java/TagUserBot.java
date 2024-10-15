@@ -42,15 +42,11 @@ public class TagUserBot extends TelegramLongPollingBot {
         this.gui = gui;
     }
     public static void addUsersToList() {
-//        taggedUsers.add("@Labogustavo");
-//        taggedUsers.add("@zlabiazella");
-//        taggedUsers.add("@ethana");
+
     }
 
     public static void addStickersToSend() {
-//        stickersToSend.add("CAACAgQAAyEFAASKkYiOAALeN2b-piZiK9gz0yJIBggqPbALe_dKAAK_FwAC9Rf4U_wbFJ7dXy67NgQ");
-//        stickersToSend.add("CAACAgQAAxkBAAEuIZdm_rMSEiq7AAEcp0gGcqHp-SJ2R78AAkgUAALTpalSgtPs70pTccg2BA");
-//        stickersToSend.add("CAACAgQAAyEFAASKkYiOAALefWb-pqlZLhtEIPYeuVooQMqvsWXeAAJvFQACTjHxUy5lBiz_JqPHNgQ");
+
     }
 
     public static void addChatIdsList() {
