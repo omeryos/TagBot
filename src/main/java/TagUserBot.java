@@ -32,7 +32,6 @@ public class TagUserBot extends TelegramLongPollingBot {
 
 
 
-    protected Long internalMsgChatid = 0L;
     boolean isBotActive = true;
     private Gui gui;
 
@@ -104,7 +103,6 @@ public class TagUserBot extends TelegramLongPollingBot {
 
         if (update.hasMessage() && update.getMessage().hasText() && update.getMessage().isUserMessage()&& update.getMessage().getFrom().getId().equals(myChatId)) {
             Long chatId = update.getMessage().getChatId();
-            internalMsgChatid = chatId;
             if (messageText.startsWith("/addusername ")) {
                 String usernameToAdd = messageText.split(" ")[1];  // Extract the username
                 addUserToTaggedList(usernameToAdd, chatId);
@@ -135,8 +133,6 @@ public class TagUserBot extends TelegramLongPollingBot {
             }
         }
         if (update.getMessage().hasSticker()&& update.getMessage().getFrom().getId().equals(myChatId)) {
-            Long chatId = update.getMessage().getChatId();
-            internalMsgChatid = chatId;
             String fileId = update.getMessage().getSticker().getFileId();
             if (stickersToSend.contains(fileId)) {
                 stickersToSend.remove(fileId);
@@ -258,9 +254,7 @@ public class TagUserBot extends TelegramLongPollingBot {
             }
         }
     }
-    public Long getInternalMsgChatid() {
-        return internalMsgChatid;
-    }
+
     public static ArrayList<String> getChatIdsList() {
         return chatIdsList;
     }
