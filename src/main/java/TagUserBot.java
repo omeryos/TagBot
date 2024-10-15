@@ -16,10 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 public class TagUserBot extends TelegramLongPollingBot {
 
-    // Replace with your Telegram bot token
-    private final String botToken = "1";
 
-    // Replace with the group or chat ID where the bot will send messages
+    private final String botToken = "1";
 
     protected Long myChatId = 1L;
     static ArrayList<String> taggedUsers = new ArrayList<>();
@@ -55,7 +53,7 @@ public class TagUserBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "TagBot";  // Replace with your bot's username
+        return "TagBot";
     }
 
     @Override
