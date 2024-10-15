@@ -31,6 +31,7 @@ public class TagUserBot extends TelegramLongPollingBot {
 
 
     boolean isBotActive = true;
+    boolean isBotStarted = false;
     private Gui gui;
 
     public TagUserBot() {
@@ -107,13 +108,27 @@ public class TagUserBot extends TelegramLongPollingBot {
                 baseMessage = messageText.split(",")[1]; //extract text
                 changeText(baseMessage, chatId);
             } else if (messageText.equals("/start")) {
-                isBotActive = true;
-                startScheduler();
-                sendMessage(chatId, "bot activated");
+                if(!isBotStarted){
+                    isBotStarted = true;
+                    isBotActive = true;
+                    startScheduler();
+                    sendMessage(chatId, "bot activated");
+                   gui.setBotRunning(isBotStarted);
+                }else{
+                    sendMessage(chatId, "bot is already running");
+                }
+
             } else if (messageText.equals("/stop")) {
-                isBotActive = false;
-                stopScheduler();
-                sendMessage(chatId, "bot stopped");
+                if(isBotStarted){
+                    isBotActive = false;
+                    isBotStarted = false;
+                    stopScheduler();
+                    sendMessage(chatId, "bot stopped");
+                    gui.setBotRunning(isBotStarted);
+                }else{
+                    sendMessage(chatId, "bot is already down!");
+                }
+
             } else if (messageText.startsWith("/addchat")) {
                 String chatIdToAdd = messageText.split(" ")[1];
                 if (chatIdsList.contains(chatIdToAdd)) {
@@ -139,21 +154,31 @@ public class TagUserBot extends TelegramLongPollingBot {
     }
 
     public void addUserToTaggedList(String username, Long chatId) {
-        if (!taggedUsers.contains(username)) {
-            taggedUsers.add(username);
-            sendMessage(chatId, "Added username: " + username);
-        } else {
-            sendMessage(chatId, "Username already exists in the list: " + username);
+        if(username.startsWith("@")){
+            if (!taggedUsers.contains(username)) {
+                taggedUsers.add(username);
+                sendMessage(chatId, "Added username: " + username);
+            } else {
+                sendMessage(chatId, "Username already exists in the list: " + username);
+            }
+        }else{
+            sendMessage(chatId, username + " is not a valid username");
         }
+
     }
 
     public void removeUserFromTaggedList(String username, Long chatId) {
-        if (taggedUsers.contains(username)) {
-            taggedUsers.remove(username);
-            sendMessage(chatId, "Removed username: " + username);
-        } else {
-            sendMessage(chatId, "Username not found in the list: " + username);
+        if(username.startsWith("@")){
+            if (taggedUsers.contains(username)) {
+                taggedUsers.remove(username);
+                sendMessage(chatId, "Removed username: " + username);
+            } else {
+                sendMessage(chatId, "Username not found in the list: " + username);
+            }
+        }else{
+            sendMessage(chatId, username + " is not a valid username");
         }
+
     }
 
     public void changeText(String text, Long chatId) {
@@ -184,7 +209,7 @@ public class TagUserBot extends TelegramLongPollingBot {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         // Format the current time and print it
-        return ("Tagged at " + currentTime.format(formatter));
+        return (currentTime.format(formatter));
     }
 
     // Method to send a message tagging the user
@@ -213,18 +238,22 @@ public class TagUserBot extends TelegramLongPollingBot {
 
     public void startScheduler() {
         if (scheduler != null && !scheduler.isShutdown()) {
-            scheduler.shutdown();
+            System.out.println("Scheduler already running");
+            gui.logMessage("Scheduler already running");
+            return;
         }
         scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(this::sendTagMessage, 0, 15, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(this::replyToUserInGroup, 2, 15, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(this::sendSticker, 5, 30, TimeUnit.SECONDS);  // 5 seconds after tags
+        isBotStarted = true;
     }
 
     // Method to stop the scheduler
     public void stopScheduler() {
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdown();
+            isBotStarted = false;
             System.out.println("Scheduler stopped.");
         }
     }
